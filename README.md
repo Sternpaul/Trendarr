@@ -4,7 +4,7 @@
 ### Automated Discord Discovery & 1-Click Downloads for Radarr & Sonarr
 
 [![Docker Build & Publish](https://github.com/Sternpaul/Trendarr/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Sternpaul/Trendarr/actions/workflows/docker-publish.yml)
-[![GitHub Release](https://img.shields.io/github/v/release/Sternpaul/Trendarr?color=7289da&label=Release)](https://github.com/Sternpaul/Trendarr/releases)
+[![Release](https://img.shields.io/github/v/tag/Sternpaul/Trendarr?color=7289da&label=Release)](https://github.com/Sternpaul/Trendarr/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node Version](https://img.shields.io/badge/node-%3E%3D20-brightgreen?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Docker Image](https://img.shields.io/badge/ghcr.io-trendarr-blue?logo=docker&logoColor=white)](https://github.com/Sternpaul/Trendarr/pkgs/container/trendarr)
