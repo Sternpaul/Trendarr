@@ -18,7 +18,7 @@ const client = new Client({
 });
 
 // When bot turns on
-client.once('ready', async () => {
+client.once('clientReady', async () => {
     console.log(`[${new Date().toISOString()}] ✅ Logged in to Discord as ${client.user.tag}!`);
     console.log(`[${new Date().toISOString()}] 🤖 Initializing weekly cron jobs...`);
     startCronJobs(client);
