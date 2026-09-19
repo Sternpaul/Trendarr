@@ -1,6 +1,26 @@
-# Trendarr - Movie & Series Discord Bot (Radarr & Sonarr)
+<div align="center">
 
-**Trendarr** is an automated Discord bot that discovers trending movies and TV series weekly via The Movie Database (TMDB), enriches them with IMDb ratings, and posts rich interactive embeds to your Discord server. Users can click a single button underneath any recommendation to immediately add it to **Radarr** or **Sonarr** and begin downloading.
+# 🎬 Trendarr 📺
+### Automated Discord Discovery & 1-Click Downloads for Radarr & Sonarr
+
+[![Docker Build & Publish](https://github.com/Sternpaul/Trendarr/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Sternpaul/Trendarr/actions/workflows/docker-publish.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/Sternpaul/Trendarr?color=7289da&label=Release)](https://github.com/Sternpaul/Trendarr/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node Version](https://img.shields.io/badge/node-%3E%3D20-brightgreen?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Docker Image](https://img.shields.io/badge/ghcr.io-trendarr-blue?logo=docker&logoColor=white)](https://github.com/Sternpaul/Trendarr/pkgs/container/trendarr)
+[![Discord.js](https://img.shields.io/badge/discord.js-v14-5865F2?logo=discord&logoColor=white)](https://discord.js.org/)
+
+<br />
+
+<img src="./assets/preview.png" alt="Trendarr Discord Bot Preview" width="850" />
+
+<br />
+
+**Trendarr** discovers trending movies and scripted TV series weekly via TMDB, enriches them with live IMDb ratings, and posts interactive cards to your Discord server. Users click one button underneath any recommendation to immediately trigger downloads in **Radarr** or **Sonarr**.
+
+[Features](#features) • [Architecture](#architecture-overview) • [Prerequisites](#prerequisites) • [Configuration](#configuration-env) • [Setup Wizard](#automated-discord-setup-wizard-zero-config) • [Installation](#installation--running) • [Troubleshooting](#troubleshooting)
+
+</div>
 
 ---
 
