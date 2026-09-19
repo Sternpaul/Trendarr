@@ -27,16 +27,16 @@ async function sendSetupPrompt(channel) {
         : `⚠️ **Quality Profile**: Not yet selected`;
 
     const embed = new EmbedBuilder()
-        .setTitle('⚙️ MovieBot Setup: Quality & Root Folders')
+        .setTitle('⚙️ Trendarr Setup: Quality & Root Folders')
         .setDescription(
-            'Welcome to **MovieBot**! 🎉\n\n' +
-            'Before MovieBot can send and download movies or TV series, it needs to know:\n' +
+            'Welcome to **Trendarr**! 🎉\n\n' +
+            'Before Trendarr can send and download movies or TV series, it needs to know:\n' +
             '1. **Target Storage Drive** (where movies & series are saved).\n' +
             '2. **Quality Profile** (resolution and download preferences).\n\n' +
             '### Current Status\n' +
             `${driveInfo}\n` +
             `${profileInfo}\n\n` +
-            'Use the buttons below to configure MovieBot automatically:'
+            'Use the buttons below to configure Trendarr automatically:'
         )
         .addFields(
             { name: '💎 1080p Standard', value: 'WEB-DL & Bluray 1080p. Perfect balance of sharpness & storage.', inline: false },
@@ -124,7 +124,7 @@ async function handleSetupInteraction(interaction, client, { sendWeeklyMovies, s
             `✅ **Storage Drive Configured!**\n\n` +
             `• **Movies Folder**: \`${radarrRootFolder}\`\n` +
             `• **Series Folder**: \`${sonarrRootFolder}\`\n\n` +
-            `MovieBot will download future media to these folders.`
+            `Trendarr will download future media to these folders.`
         );
 
         // Check if both profile and root folders are ready
@@ -139,17 +139,17 @@ async function handleSetupInteraction(interaction, client, { sendWeeklyMovies, s
     // 3. Open Modal for Quick Presets or Custom
     if (interaction.customId.startsWith('setup_quick_') || interaction.customId === 'setup_open_custom_modal') {
         let defaultPreset = '1080p';
-        let defaultName = 'MovieBot-1080p';
+        let defaultName = 'Trendarr-1080p';
 
         if (interaction.customId === 'setup_quick_4k') {
             defaultPreset = '4k';
-            defaultName = 'MovieBot-4K';
+            defaultName = 'Trendarr-4K';
         } else if (interaction.customId === 'setup_quick_any') {
             defaultPreset = 'any';
-            defaultName = 'MovieBot-Any';
+            defaultName = 'Trendarr-Any';
         } else if (interaction.customId === 'setup_open_custom_modal') {
             defaultPreset = '1080p';
-            defaultName = 'MovieBot-HD';
+            defaultName = 'Trendarr-HD';
         }
 
         const modal = new ModalBuilder()
@@ -214,13 +214,13 @@ async function handleSetupInteraction(interaction, client, { sendWeeklyMovies, s
 
             const selectMenu = new StringSelectMenuBuilder()
                 .setCustomId('setup_existing_selected')
-                .setPlaceholder('Select a profile to use for MovieBot')
+                .setPlaceholder('Select a profile to use for Trendarr')
                 .addOptions(options.slice(0, 25));
 
             const row = new ActionRowBuilder().addComponents(selectMenu);
 
             return interaction.editReply({
-                content: 'Select the existing profile pair you would like MovieBot to use:',
+                content: 'Select the existing profile pair you would like Trendarr to use:',
                 components: [row]
             });
         } catch (error) {
@@ -259,7 +259,7 @@ async function handleSetupInteraction(interaction, client, { sendWeeklyMovies, s
             `✅ **Quality Profile Configured!**\n\n` +
             `• **Profile**: **${profileName}** (Radarr ID: ${radarrId}, Sonarr ID: ${sonarrId})\n` +
             `• **Root Folders**: \`${radarrRootFolder}\` & \`${sonarrRootFolder}\`\n\n` +
-            `🚀 MovieBot is now active! Triggering initial movie & series check...`
+            `🚀 Trendarr is now active! Triggering initial movie & series check...`
         );
 
         if (sendWeeklyMovies) await sendWeeklyMovies(client);
@@ -302,13 +302,13 @@ async function handleSetupInteraction(interaction, client, { sendWeeklyMovies, s
             const successEmbed = new EmbedBuilder()
                 .setTitle('✅ Setup Complete!')
                 .setDescription(
-                    `MovieBot has configured your profiles and root folders:\n\n` +
+                    `Trendarr has configured your profiles and root folders:\n\n` +
                     `• **Profile Name**: ${name} (\`${preset.toUpperCase()}\`)\n` +
                     `• **Radarr Profile ID**: \`${result.radarrProfileId}\`\n` +
                     `• **Sonarr Profile ID**: \`${result.sonarrProfileId}\`\n` +
                     `• **Movies Folder**: \`${radarrRootFolder}\`\n` +
                     `• **Series Folder**: \`${sonarrRootFolder}\`\n\n` +
-                    `🚀 **MovieBot is fully operational!** Dispatching initial recommendations...`
+                    `🚀 **Trendarr is fully operational!** Dispatching initial recommendations...`
                 )
                 .setColor('#2ECC71');
 

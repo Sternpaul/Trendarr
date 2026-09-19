@@ -112,7 +112,7 @@ CRON_SCHEDULE_SERIES=0 17 * * 5  # Series: Every Friday at 17:00
 
 > [!TIP]
 > **Zero Manual Profile or Path Setup Required**:
-> Quality profiles and storage root folders are now managed automatically. On first startup, MovieBot automatically queries your Radarr & Sonarr instances, lets you select or create profiles and choose storage drives right inside Discord, and saves your preferences to `data/config.json`.
+> Quality profiles and storage root folders are now managed automatically. On first startup, Trendarr automatically queries your Radarr & Sonarr instances, lets you select or create profiles and choose storage drives right inside Discord, and saves your preferences to `data/config.json`.
 
 ### How to Find Your Settings
 
@@ -124,7 +124,7 @@ CRON_SCHEDULE_SERIES=0 17 * * 5  # Series: Every Friday at 17:00
 | **Quality Profiles & Folders** | Configured automatically via Discord on startup or on demand via `!setup`. |
 
 #### Automated Discord Setup Wizard (Zero-Config)
-MovieBot includes a built-in interactive setup wizard in Discord:
+Trendarr includes a built-in interactive setup wizard in Discord:
 * **First Startup**: If quality profiles are not yet set in `.env` or `data/config.json`, the bot automatically posts a Setup Card in Discord.
 * **On-Demand**: You can re-trigger this wizard at any time in Discord by typing:
   ```text
@@ -133,7 +133,7 @@ MovieBot includes a built-in interactive setup wizard in Discord:
   *(or `!profiles`)*
 * **How It Works**:
   1. Click **Create 1080p Profile**, **Create 4K Profile**, or **Choose Existing Profile**.
-  2. A Discord Modal opens to confirm the name (e.g. `MovieBot-1080p`).
+  2. A Discord Modal opens to confirm the name (e.g. `Trendarr-1080p`).
   3. The bot automatically creates the profile in both Radarr and Sonarr via their APIs.
   4. Saves the generated IDs to `data/config.json` (persisting across Docker restarts).
   5. Immediately triggers the weekly discovery dispatch!
@@ -161,7 +161,7 @@ If you prefer creating profiles in the Web UI:
 1. Open Sonarr (e.g. `http://192.168.1.10:8989`) or Radarr.
 2. Go to **Settings** -> **Profiles**.
 3. Under **Quality Profiles**, click the **`+`** button.
-4. Choose a Name (e.g., `MovieBot-1080p`).
+4. Choose a Name (e.g., `Trendarr-1080p`).
 5. Check/uncheck and rank the qualities you want Sonarr to download (e.g., `WEBDL-1080p`, `Bluray-1080p`).
 6. Click **Save**.
 7. Run `!setup` in Discord to select your new profile from the menu, or inspect its ID with `npm run profiles`.
@@ -209,7 +209,7 @@ Upon startup, the bot will:
 ## Project Structure
 
 ```
-MovieBot/
+Trendarr/
 ├── .env                  # Private configuration & secrets (gitignored)
 ├── .env.example          # Sample configuration template
 ├── .gitignore            # Git ignore rules protecting credentials
@@ -245,4 +245,4 @@ MovieBot/
 - **Series is already in Sonarr**:
   The bot detects duplicates automatically. If a series already exists in Sonarr, the bot replies with an ephemeral message: *"⚠️ This series is already in your Sonarr library!"*
 - **Docker Network Connectivity**:
-  If your Radarr/Sonarr instances are running in Docker on the same NAS, you can either use your NAS local IP (e.g. `http://192.168.1.10:8989`) or connect `movie-series-bot` to the same Docker bridge network (see commented section in `docker-compose.yml`).
+  If your Radarr/Sonarr instances are running in Docker on the same NAS, you can either use your NAS local IP (e.g. `http://192.168.1.10:8989`) or connect `trendarr` to the same Docker bridge network (see commented section in `docker-compose.yml`).

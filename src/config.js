@@ -55,7 +55,7 @@ function saveProfileConfig({
     };
 
     fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
-    console.log(`[${new Date().toISOString()}] Saved MovieBot media configuration to data/config.json:`, config);
+    console.log(`[${new Date().toISOString()}] Saved Trendarr media configuration to data/config.json:`, config);
     return config;
 }
 

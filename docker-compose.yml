@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  movie-series-bot:
+  trendarr:
     build: .
-    container_name: movie-series-bot
+    container_name: trendarr
     restart: unless-stopped
     env_file:
       - .env

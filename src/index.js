@@ -27,7 +27,7 @@ client.once('ready', async () => {
     // Check if Quality Profiles and Root Folders are configured and valid on live servers
     const setupValid = await verifySetup();
     if (!setupValid) {
-        console.log(`[${new Date().toISOString()}] ⚠️ MovieBot media setup (Profiles / Root Folders) is not configured or missing on Radarr/Sonarr! Sending setup wizard to Discord...`);
+        console.log(`[${new Date().toISOString()}] ⚠️ Trendarr media setup (Profiles / Root Folders) is not configured or missing on Radarr/Sonarr! Sending setup wizard to Discord...`);
         const channelId = process.env.DISCORD_CHANNEL_ID;
         try {
             const channel = await client.channels.fetch(channelId);
