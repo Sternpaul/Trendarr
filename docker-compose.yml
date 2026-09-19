@@ -1,6 +1,7 @@
 services:
   trendarr:
-    build: .
+    image: ghcr.io/sternpaul/trendarr:latest
+    # build: . # Uncomment to build locally from source instead of pulling image
     container_name: trendarr
     restart: unless-stopped
     env_file:
