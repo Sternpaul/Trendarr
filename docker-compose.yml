@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  movie-series-bot:
+    build: .
+    container_name: movie-series-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/usr/src/app/data
+    # Optional: If running on the same Docker network as Radarr & Sonarr, 
+    # you can uncomment this to communicate natively without exposing host ports
+    # networks:
+    #   - arr-network
+
+# networks:
+#   arr-network:
+#     external: true
+
