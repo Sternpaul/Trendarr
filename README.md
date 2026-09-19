@@ -172,8 +172,6 @@ If you prefer creating profiles in the Web UI:
 
 ### Option 1: Running with Docker Compose (Recommended for NAS)
 
-Trendarr publishes pre-built multi-architecture Docker images (`linux/amd64` and `linux/arm64`) to the GitHub Container Registry (`ghcr.io/sternpaul/trendarr:latest`).
-
 1. Start the container in the background:
    ```bash
    docker compose up -d
@@ -187,21 +185,8 @@ Trendarr publishes pre-built multi-architecture Docker images (`linux/amd64` and
    docker compose down
    ```
 
-#### Automatic Updates with Watchtower
-To have Trendarr update automatically whenever a new image is published to GitHub, you can add [Watchtower](https://containrrr.dev/watchtower/) to your Docker setup or add it to `docker-compose.yml`:
-```yaml
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --interval 86400 --cleanup trendarr
-```
-*(Watchtower will check once daily for new Trendarr images, smoothly update the container, and clean up the old image).*
-
 > [!NOTE]
-> The `./data` directory is mounted into the container as a persistent volume. This guarantees your `config.json`, `sent_movies.json`, and `sent_series.json` history persists across container restarts and automated updates.
+> The `./data` directory is mounted into the container as a persistent volume. This guarantees your `config.json`, `sent_movies.json`, and `sent_series.json` history persists across container restarts and updates.
 
 ### Option 2: Running Locally with Node.js
 
