@@ -1,6 +1,6 @@
 {
   "name": "trendarr",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Automated Discord bot for trending movies & series discovery with 1-click Radarr & Sonarr downloads",
   "main": "index.js",
   "scripts": {
