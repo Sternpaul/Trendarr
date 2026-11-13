@@ -1,7 +1,7 @@
-# Node.js 24 LTS (security support until April 2028) on Alpine for a small footprint.
-# The major tag tracks the latest patched 24.x release; CI rebuilds weekly to pick up fixes,
+# Node.js 26 LTS (security support until April 2029) on Alpine for a small footprint.
+# The major tag tracks the latest patched 26.x release; CI rebuilds weekly to pick up fixes,
 # and Dependabot opens a PR when a newer major is available.
-FROM node:24-alpine
+FROM node:26-alpine
 
 # Use production node environment by default
 ENV NODE_ENV=production

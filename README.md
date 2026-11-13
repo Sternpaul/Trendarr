@@ -6,7 +6,7 @@
 [![Docker Build & Publish](https://github.com/Sternpaul/Trendarr/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Sternpaul/Trendarr/actions/workflows/docker-publish.yml)
 [![Release](https://img.shields.io/github/v/tag/Sternpaul/Trendarr?color=7289da&label=Release)](https://github.com/Sternpaul/Trendarr/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node Version](https://img.shields.io/badge/node-%3E%3D24-brightgreen?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Node Version](https://img.shields.io/badge/node-%3E%3D26-brightgreen?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Docker Image](https://img.shields.io/badge/ghcr.io-trendarr-blue?logo=docker&logoColor=white)](https://github.com/Sternpaul/Trendarr/pkgs/container/trendarr)
 [![Discord.js](https://img.shields.io/badge/discord.js-v14-5865F2?logo=discord&logoColor=white)](https://discord.js.org/)
 
