@@ -97,7 +97,7 @@ async function sendWeeklyMovies(client) {
                 const omdbKey = process.env.OMDB_API_KEY;
                 if (omdbKey) {
                     try {
-                        const omdbRes = await axios.get(`http://www.omdbapi.com/?apikey=${omdbKey}&i=${imdbId}`);
+                        const omdbRes = await axios.get(`https://www.omdbapi.com/?apikey=${omdbKey}&i=${imdbId}`);
                         if (omdbRes.data && omdbRes.data.imdbRating) {
                             imdbRating = omdbRes.data.imdbRating;
                         }
@@ -191,7 +191,7 @@ async function sendWeeklySeries(client) {
                     const omdbKey = process.env.OMDB_API_KEY;
                     if (omdbKey) {
                         try {
-                            const omdbRes = await axios.get(`http://www.omdbapi.com/?apikey=${omdbKey}&i=${imdbId}`);
+                            const omdbRes = await axios.get(`https://www.omdbapi.com/?apikey=${omdbKey}&i=${imdbId}`);
                             if (omdbRes.data && omdbRes.data.imdbRating) {
                                 imdbRating = omdbRes.data.imdbRating;
                             }
