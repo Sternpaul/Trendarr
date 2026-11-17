@@ -4,6 +4,7 @@ const path = require('path');
 const axios = require('axios');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { getTrendingMovies, getMovieDetails, getTrendingSeries, getSeriesDetails } = require('./tmdb.js');
+const { getState, updateState } = require('./state');
 
 // Save the files in a dedicated 'data' folder to allow persistent Docker volumes
 const dataDir = path.join(__dirname, '..', 'data');
@@ -61,6 +62,8 @@ async function sendWeeklyMovies(client) {
             console.error(`[${new Date().toISOString()}] Discord channel with ID ${channelId} not found.`);
             return;
         }
+
+        updateState({ moviesLastRunAt: new Date().toISOString() });
 
         const movies = await getTrendingMovies();
         if (movies.length === 0) {
@@ -145,6 +148,8 @@ async function sendWeeklySeries(client) {
             console.error(`[${new Date().toISOString()}] Discord series channel with ID ${channelId} not found.`);
             return;
         }
+
+        updateState({ seriesLastRunAt: new Date().toISOString() });
 
         const seriesList = await getTrendingSeries();
         if (seriesList.length === 0) {
@@ -249,19 +254,31 @@ function startCronJobs(client) {
     const seriesSchedule = process.env.CRON_SCHEDULE_SERIES || movieSchedule;
 
     // Schedule movies cron job
-    cron.schedule(movieSchedule, () => {
+    const movieTask = cron.schedule(movieSchedule, () => {
         console.log(`[${new Date().toISOString()}] Running scheduled weekly trending movies cron job...`);
         sendWeeklyMovies(client);
     });
     console.log(`[${new Date().toISOString()}] Movies cron job scheduled successfully with expression: "${movieSchedule}"`);
 
     // Schedule series cron job (can run at same or different time)
-    cron.schedule(seriesSchedule, () => {
+    const seriesTask = cron.schedule(seriesSchedule, () => {
         console.log(`[${new Date().toISOString()}] Running scheduled weekly trending series cron job...`);
         sendWeeklySeries(client);
     });
     console.log(`[${new Date().toISOString()}] Series cron job scheduled successfully with expression: "${seriesSchedule}"`);
+
+    return { movieTask, seriesTask };
 }
 
-module.exports = { startCronJobs, sendWeeklyMovies, sendWeeklySeries };
+// True once a selection has been posted at least once. Existing installs (from before
+// state.json existed) are detected through their non-empty sent history.
+function hasMoviesRunBefore() {
+    return Boolean(getState().moviesLastRunAt) || getSentMovies().length > 0;
+}
+
+function hasSeriesRunBefore() {
+    return Boolean(getState().seriesLastRunAt) || getSentSeries().length > 0;
+}
+
+module.exports = { startCronJobs, sendWeeklyMovies, sendWeeklySeries, hasMoviesRunBefore, hasSeriesRunBefore };
 

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { startCronJobs, sendWeeklyMovies, sendWeeklySeries } = require('./cron');
+const { startCronJobs, sendWeeklyMovies, sendWeeklySeries, hasMoviesRunBefore, hasSeriesRunBefore } = require('./cron');
+const { getState, updateState } = require('./state');
 const { addMovieToRadarr } = require('./radarr');
 const { addSeriesToSonarr } = require('./sonarr');
 const { getSeriesDetails } = require('./tmdb');
@@ -21,7 +22,7 @@ const client = new Client({
 client.once('clientReady', async () => {
     console.log(`[${new Date().toISOString()}] ✅ Logged in to Discord as ${client.user.tag}!`);
     console.log(`[${new Date().toISOString()}] 🤖 Initializing weekly cron jobs...`);
-    startCronJobs(client);
+    const cronTasks = startCronJobs(client);
     console.log(`[${new Date().toISOString()}] Bot is now fully operational and listening for interactions.`);
     
     // Check if Quality Profiles and Root Folders are configured and valid on live servers
@@ -38,15 +39,56 @@ client.once('clientReady', async () => {
             console.error(`[${new Date().toISOString()}] Error sending setup card:`, e.message);
         }
     } else {
-        // Immediately fetch and send movies on startup
-        console.log(`[${new Date().toISOString()}] Triggering initial movie fetch on startup...`);
-        await sendWeeklyMovies(client);
+        // Only post a full selection on the very first run. Regular restarts stay quiet
+        // and just leave a single small notice (replacing the previous one).
+        const firstMovies = !hasMoviesRunBefore();
+        const firstSeries = !hasSeriesRunBefore();
 
-        // Immediately fetch and send series on startup
-        console.log(`[${new Date().toISOString()}] Triggering initial series fetch on startup...`);
-        await sendWeeklySeries(client);
+        if (firstMovies) {
+            console.log(`[${new Date().toISOString()}] First run: sending initial movie selection...`);
+            await sendWeeklyMovies(client);
+        }
+        if (firstSeries) {
+            console.log(`[${new Date().toISOString()}] First run: sending initial series selection...`);
+            await sendWeeklySeries(client);
+        }
+
+        if (!firstMovies && !firstSeries) {
+            console.log(`[${new Date().toISOString()}] Restart detected: skipping selection until next scheduled run.`);
+            await sendRestartNotice(cronTasks);
+        }
     }
 });
+
+// Post a tiny "restarted" message and delete the previous one, so frequent restarts
+// never stack up in the channel. Disable completely with RESTART_NOTICE=false.
+async function sendRestartNotice({ movieTask, seriesTask }) {
+    if (String(process.env.RESTART_NOTICE).toLowerCase() === 'false') return;
+
+    try {
+        const channel = await client.channels.fetch(process.env.DISCORD_CHANNEL_ID);
+        if (!channel) return;
+
+        const previous = getState().restartNotice;
+        if (previous && previous.messageId) {
+            try {
+                const prevChannel = await client.channels.fetch(previous.channelId);
+                await prevChannel.messages.delete(previous.messageId);
+            } catch (e) {
+                // Already deleted or not accessible anymore, nothing to do
+            }
+        }
+
+        const nextRuns = [movieTask?.getNextRun(), seriesTask?.getNextRun()].filter(Boolean);
+        const next = nextRuns.length ? new Date(Math.min(...nextRuns.map(d => d.getTime()))) : null;
+        const nextText = next ? ` Next selection <t:${Math.floor(next.getTime() / 1000)}:R>.` : '';
+
+        const msg = await channel.send(`-# 🔄 Trendarr restarted, no new selection posted.${nextText}`);
+        updateState({ restartNotice: { channelId: channel.id, messageId: msg.id } });
+    } catch (e) {
+        console.error(`[${new Date().toISOString()}] Error sending restart notice:`, e.message);
+    }
+}
 
 // Allow triggering setup anytime by typing !setup in Discord
 client.on('messageCreate', async message => {

@@ -128,6 +128,7 @@ SONARR_API_KEY=your_sonarr_api_key_here
 TMDB_API_KEY=your_tmdb_api_key_here
 CRON_SCHEDULE=0 17 * * 5         # Movies: Every Friday at 17:00
 CRON_SCHEDULE_SERIES=0 17 * * 5  # Series: Every Friday at 17:00
+# RESTART_NOTICE=false           # Optional: no Discord message at all on restart
 ```
 
 > [!TIP]
@@ -206,7 +207,7 @@ If you prefer creating profiles in the Web UI:
    ```
 
 > [!NOTE]
-> The `./data` directory is mounted into the container as a persistent volume. This guarantees your `config.json`, `sent_movies.json`, and `sent_series.json` history persists across container restarts and updates.
+> The `./data` directory is mounted into the container as a persistent volume. This guarantees your `config.json`, `sent_movies.json`, and `sent_series.json` history (plus a small `state.json`) persists across container restarts and updates.
 
 ### Option 2: Running Locally with Node.js
 
@@ -222,7 +223,8 @@ If you prefer creating profiles in the Web UI:
 Upon startup, the bot will:
 1. Log in to Discord.
 2. Initialize cron jobs for weekly dispatch.
-3. Perform an immediate check on startup and send any new trending movies to `#movies` and series to `#series`.
+3. On the **very first** startup, send an initial selection of trending movies to `#movies` and series to `#series`.
+4. On later restarts, post nothing but a tiny "🔄 restarted" notice (the previous notice is deleted, so they never pile up). Set `RESTART_NOTICE=false` to stay fully silent.
 
 ---
 
